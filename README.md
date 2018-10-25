@@ -8,7 +8,7 @@ projeto de Linguagem de Programação (2018.2) */
 
 using namespace std;
 
-void imprimeCampo(char Campo_Minado[MAX_TAM][MAX_TAM], int linha, int coluna,int opcao_INI1, int opcao_JOGO);
+void imprimeCampo(char Campo_Minado[MAX_TAM][MAX_TAM], int linha, int coluna,int opcao_INI, int opcao_JOGO);
 int telaInicio(int opcao_INI,int opcao_JOGO);
 
 int main(){
@@ -31,24 +31,30 @@ int telaInicio(int opcao_INI, int opcao_JOGO){
 
 
 void imprimeCampo(char Campo_Minado[MAX_TAM][MAX_TAM], int linha, int coluna,int opcao_INI, int opcao_JOGO){
-    if(telaInicio(opcao_INI,opcao_JOGO) == 1){
+    int toption = telaInicio(opcao_INI,opcao_JOGO);
+    if(toption == 1){
         linha = 8;
         coluna = 8;
     }
-    cout<<"  ";
-    for(int i =0; i<linha;i++){
-            cout<<i+1<<" ";
-        }
+    else if(toption == 2){
+        linha = 16;
+        coluna = 16;
+    }
+    cout<<"      ";
+    for(int i = 0; i < linha; i++){
+        cout<<i+1<<" ";
+    }
     cout<<endl;
-    for(int i = 0; i<linha;i++){
-        for(int j = 0; j<coluna;j++){
+    for(int i = 0; i < linha; i++){
+        if(i < 10){
+            cout<<i+1<<"     ";
+        }
+        else{
+            cout<<i+1<<"    ";
+        }
+        for(int j = 0; j < coluna; j++){
             Campo_Minado[i][j] = '.';
-            if(j==0){
-                cout<<i+1<<" "<<Campo_Minado[i][j];
-            }
-            else if(j!=0){
-                cout<<" "<<Campo_Minado[i][j];
-            }
+            cout<<Campo_Minado[i][j]<<" ";
         }
         cout<<endl;
     }
