@@ -13,6 +13,7 @@ int telaInicial(int inicio, int nivel);
 void imprimeCampo(char campo[MAX][MAX], int tamanho, int nivel);
 void preencher(char campo[MAX][MAX], int tamanho, int nivel);
 void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int nivel, int minas);
+void resultado(char campoReal[MAX][MAX], campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc);
 
 int telaInicial(int inicio, int nivel){
     cout<<"• Novo jogo[1] "<<endl;
@@ -86,6 +87,17 @@ void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int ni
 
     cin>>comando>>linha_esc>>coluna_esc;
     resultado(campoReal, campo, comando,  minas, tamanho, nivel, linha_esc, coluna_esc);
+}
+
+void resultado(char campoReal[MAX][MAX], campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc){
+    if(comando == 'D'){
+        if(campoReal[linha_esc-1][coluna_esc-1] == 'x'){
+            cout<<"Você Perdeu";
+        }
+        else{
+        comandos(campoReal, campo, tamanho, nivel, minas);
+        }
+    }
 }
 
 int main(void){
