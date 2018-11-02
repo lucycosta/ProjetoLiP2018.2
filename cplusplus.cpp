@@ -11,6 +11,8 @@ using namespace std;
 
 int telaInicial(int inicio, int nivel);
 void imprimeCampo(char campo[MAX][MAX], int tamanho, int nivel);
+void preencher(char campo[MAX][MAX], int tamanho, int nivel);
+void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int nivel, int minas);
 
 int telaInicial(int inicio, int nivel){
     cout<<"• Novo jogo[1] "<<endl;
@@ -50,6 +52,42 @@ void imprimeCampo(char campo[MAX][MAX], int tamanho, int nivel){
     }
 }
 
+void preencher(char campo[MAX][MAX], int tamanho, int nivel){
+    char campoReal[MAX][MAX];
+    int minas;
+    if(nivel == 1){
+        minas = 10;
+        for(int i = 0; i = tamanho; i++){
+            for(int j = 0; j = tamanho; j++){
+                if(minas != 0){
+                    campoReal[i][j] = rand()%'y'+'x';
+                    minas--;
+                }
+                else{
+                    campoReal[i][j] = 'y';
+                }
+            }
+        }
+        minas = 10;
+    }
+    comandos(campoReal, campo, tamanho, nivel, minas);
+}
+
+void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int nivel, int minas){
+    char comando;
+    int linha_esc, coluna_esc;
+    
+    cout<<"Minas a marcar: "<<minas<<" "<<endl;
+    cout<<"D --> Descobrir quadrado "<<endl;
+    cout<<"M --> Marcar mina "<<endl;
+    cout<<"T --> Talvez mina "<<endl;
+    cout<<"L --> Limpar Campo "<<endl;
+    cout<<"S --> Sair "<<endl;
+
+    cin>>comando>>linha_esc>>coluna_esc;
+    resultado(campoReal, campo, comando,  minas, tamanho, nivel, linha_esc, coluna_esc);
+}
+
 int main(void){
     char campo[MAX][MAX];
     int tela, inicio, nivel, tamanho;
@@ -62,6 +100,7 @@ int main(void){
         }
 
         imprimeCampo(campo, tamanho, (tela%10));
+        preencher(campo, tamanho, (tela%10));
     }
 
     return 0;
