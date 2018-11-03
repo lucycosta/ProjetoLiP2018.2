@@ -1,19 +1,27 @@
-/* # campominado
+ /* # campominado
 projeto de Linguagem de Programação (2018.2) */
 
 
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <ctime>
 #define MAX 40
 
 using namespace std;
 
+char conversor(int n);
 int telaInicial(int inicio, int nivel);
 void imprimeCampo(char campo[MAX][MAX], int tamanho);
 void preencher(char campo[MAX][MAX], int tamanho, int nivel);
 void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int nivel, int minas);
 void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc);
+
+char conversor(int n){
+	int aux;
+	aux = n+48;
+	return((char)aux);
+}
 
 int telaInicial(int inicio, int nivel){
     cout<<"• Novo jogo[1] "<<endl;
@@ -54,22 +62,167 @@ void imprimeCampo(char campo[MAX][MAX], int tamanho){
 
 void preencher(char campo[MAX][MAX], int tamanho, int nivel){
     char campoReal[MAX][MAX];
-    int minas;
+    int minas, cont;
+    
+    srand(time(NULL));
+    
     if(nivel == 1){
         minas = 10;
-        for(int i = 0; i < tamanho; i++){
-            for(int j = 0; j < tamanho; j++){
-                if(minas != 0){
-                    campoReal[i][j] = rand()%'y'+'x';
-                    minas--;
-                }
-                else{
-                    campoReal[i][j] = 'y';
-                }
-            }
-        }
-        minas = 10;
     }
+    for(int i = 0; i < minas; i++){
+    	int a = rand()%tamanho, b = rand()%tamanho;
+		if(campoReal[a][b] != 'x'){
+			campoReal[a][b] = 'x';
+		}
+		else{
+			while(campoReal[a][b] == 'x'){
+				a = rand()%tamanho; 
+				b = rand()%tamanho;
+				campoReal[a][b] = 'x';
+			}
+		}
+	}
+
+	for(int i = 0; i < tamanho; i++){
+		for(int j = 0; j < tamanho; j++){
+			if(campoReal[i][j] != 'x'){
+				if(i == 0 && j == 0){
+					if(campoReal[i][j+1] == 'x')
+						cont++;
+					if(campoReal[i+1][j] == 'x')
+						cont++;
+					if(campoReal[i+1][j+1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else if(i == 0 && j == (tamanho-1)){
+					if(campoReal[i][j-1] == 'x')
+						cont++;
+					if(campoReal[i+1][j-1] == 'x')
+						cont++;
+					if(campoReal[i+1][j] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else if(i == (tamanho-1) && j == 0){
+					if(campoReal[i-1][j] == 'x')
+						cont++;
+					if(campoReal[i-1][j+1] == 'x')
+						cont++;
+					if(campoReal[i][j+1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else if(i == (tamanho-1) && j == (tamanho-1)){
+					if(campoReal[i-1][j] == 'x')
+						cont++;
+					if(campoReal[i-1][j-1] == 'x')
+						cont++;
+					if(campoReal[i][j-1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else if(i == 0 && j > 0 && j < (tamanho-1)){
+					if(campoReal[i][j-1] == 'x')
+						cont++;
+					if(campoReal[i][j+1] == 'x')
+						cont++;
+					if(campoReal[i+1][j-1] == 'x')
+						cont++;
+					if(campoReal[i+1][j] == 'x')
+						cont++;
+					if(campoReal[i+1][j+1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else if(i == (tamanho-1) && j > 0 && j < (tamanho-1)){
+					if(campoReal[i][j-1] == 'x')
+						cont++;
+					if(campoReal[i-1][j-1] == 'x')
+						cont++;
+					if(campoReal[i-1][j] == 'x')
+						cont++;
+					if(campoReal[i-1][j+1] == 'x')
+						cont++;
+					if(campoReal[i][j+1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else if(j == 0 && i > 0 && i < (tamanho-1)){
+					if(campoReal[i-1][j] == 'x')
+						cont++;
+					if(campoReal[i-1][j+1] == 'x')
+						cont++;
+					if(campoReal[i][j+1] == 'x')
+						cont++;
+					if(campoReal[i+1][j] == 'x')
+						cont++;
+					if(campoReal[i+1][j+1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else if(j == (tamanho-1) && i > 0 && i < (tamanho-1)){
+					if(campoReal[i-1][j] == 'x')
+						cont++;
+					if(campoReal[i-1][j-1] == 'x')
+						cont++;
+					if(campoReal[i][j-1] == 'x')
+						cont++;
+					if(campoReal[i+1][j] == 'x')
+						cont++;
+					if(campoReal[i+1][j-1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+				else{
+					if(campoReal[i-1][j-1] == 'x')
+						cont++;
+					if(campoReal[i-1][j] == 'x')
+						cont++;
+					if(campoReal[i-1][j+1] == 'x')
+						cont++;
+					if(campoReal[i][j-1] == 'x')
+						cont++;
+					if(campoReal[i][j+1] == 'x')
+						cont++;
+					if(campoReal[i+1][j-1] == 'x')
+						cont++;
+					if(campoReal[i+1][j] == 'x')
+						cont++;
+					if(campoReal[i+1][j+1] == 'x')
+						cont++;
+						
+					campoReal[i][j] = conversor(cont);
+					cont = 0;
+				}
+			}
+		}
+		campo[i][tamanho] = '\0';
+	}
+
+	for(int i = 0; i < tamanho; i++){
+		for(int j = 0; j < tamanho; j++){
+			cout<<campoReal[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+
     comandos(campoReal, campo, tamanho, nivel, minas);
 }
 
@@ -116,5 +269,4 @@ int main(void){
     }
 
     return 0;
-}
-       
+}  
