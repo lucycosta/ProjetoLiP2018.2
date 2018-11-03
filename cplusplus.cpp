@@ -1,4 +1,4 @@
- /* # campominado
+/* # campominado
 projeto de Linguagem de Programação (2018.2) */
 
 
@@ -65,6 +65,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
     int minas, cont;
     
     srand(time(NULL));
+    cout<<endl;
     
     if(nivel == 1){
         minas = 10;
@@ -222,7 +223,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 		}
 		cout<<endl;
 	}
-
+	
     comandos(campoReal, campo, tamanho, nivel, minas);
 }
 
@@ -269,4 +270,4 @@ int main(void){
     }
 
     return 0;
-}  
+}
