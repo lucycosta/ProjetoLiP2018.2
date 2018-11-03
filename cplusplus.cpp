@@ -10,10 +10,10 @@ projeto de Linguagem de Programação (2018.2) */
 using namespace std;
 
 int telaInicial(int inicio, int nivel);
-void imprimeCampo(char campo[MAX][MAX], int tamanho, int nivel);
+void imprimeCampo(char campo[MAX][MAX], int tamanho);
 void preencher(char campo[MAX][MAX], int tamanho, int nivel);
 void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int nivel, int minas);
-void resultado(char campoReal[MAX][MAX], campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc);
+void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc);
 
 int telaInicial(int inicio, int nivel){
     cout<<"• Novo jogo[1] "<<endl;
@@ -30,7 +30,7 @@ int telaInicial(int inicio, int nivel){
     return ((inicio*10)+nivel);
 }
 
-void imprimeCampo(char campo[MAX][MAX], int tamanho, int nivel){
+void imprimeCampo(char campo[MAX][MAX], int tamanho){
     cout<<"      ";
     for(int i = 0; i < tamanho; i++){
         cout<<i+1<<" ";
@@ -44,7 +44,6 @@ void imprimeCampo(char campo[MAX][MAX], int tamanho, int nivel){
         else{
             cout<<i+1<<"    ";
         }
-
         for(int j = 0; j < tamanho; j++){
             campo[i][j] = '.';
             cout<<campo[i][j]<<" ";
@@ -58,8 +57,8 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
     int minas;
     if(nivel == 1){
         minas = 10;
-        for(int i = 0; i = tamanho; i++){
-            for(int j = 0; j = tamanho; j++){
+        for(int i = 0; i < tamanho; i++){
+            for(int j = 0; j < tamanho; j++){
                 if(minas != 0){
                     campoReal[i][j] = rand()%'y'+'x';
                     minas--;
@@ -89,12 +88,13 @@ void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int ni
     resultado(campoReal, campo, comando,  minas, tamanho, nivel, linha_esc, coluna_esc);
 }
 
-void resultado(char campoReal[MAX][MAX], campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc){
+void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc){
     if(comando == 'D'){
         if(campoReal[linha_esc-1][coluna_esc-1] == 'x'){
             cout<<"Você Perdeu";
         }
         else{
+        imprimeCampo(campoReal, tamanho);
         comandos(campoReal, campo, tamanho, nivel, minas);
         }
     }
@@ -106,14 +106,15 @@ int main(void){
 
     tela = telaInicial(inicio, nivel);
 
-    if((tela/10) == 1 && (tela&10) >= 3){
+    if((tela/10) == 1 && (tela%10) <= 3){
         if((tela%10) == 1){
             tamanho = 8;
         }
 
-        imprimeCampo(campo, tamanho, (tela%10));
+        imprimeCampo(campo, tamanho);
         preencher(campo, tamanho, (tela%10));
     }
 
     return 0;
 }
+       
