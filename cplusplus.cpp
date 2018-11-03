@@ -30,7 +30,7 @@ int telaInicial(int inicio, int nivel){
     cin>>inicio;
 
     cout<<"• Jogo Iniciante[1]"<<endl;
-    cout<<"• Jogo Intermediário[2]"<<endl;
+    cout<<"• Jogo Intermediario[2]"<<endl;
     cout<<"• Jogo Personalizado[3]"<<endl;
     cout<<"• Voltar[4]"<<endl;
     cin>>nivel;
@@ -87,6 +87,8 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 	for(int i = 0; i < tamanho; i++){
 		for(int j = 0; j < tamanho; j++){
 			if(campoReal[i][j] != 'x'){
+				cont = 0;
+				
 				if(i == 0 && j == 0){
 					if(campoReal[i][j+1] == 'x')
 						cont++;
