@@ -44,14 +44,11 @@ void imprimeCampo(char campo[MAX][MAX], int tamanho){
         cout<<i+1<<" ";
     }
     cout<<endl;
+    cout<<endl;
 
     for(int i = 0; i < tamanho; i++){
-        if(i < 10){
-            cout<<i+1<<"     ";
-        }
-        else{
-            cout<<i+1<<"    ";
-        }
+        cout<<i+1<<"     ";
+        
         for(int j = 0; j < tamanho; j++){
             campo[i][j] = '.';
             cout<<campo[i][j]<<" ";
@@ -218,13 +215,6 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 		}
 		campo[i][tamanho] = '\0';
 	}
-
-	for(int i = 0; i < tamanho; i++){
-		for(int j = 0; j < tamanho; j++){
-			cout<<campoReal[i][j]<<" ";
-		}
-		cout<<endl;
-	}
 	
     comandos(campoReal, campo, tamanho, nivel, minas);
 }
@@ -247,10 +237,30 @@ void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int ni
 void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc){
     if(comando == 'D'){
         if(campoReal[linha_esc-1][coluna_esc-1] == 'x'){
-            cout<<"Você Perdeu";
+            cout<<"Voce Perdeu";
         }
         else{
-        imprimeCampo(campoReal, tamanho);
+   			 cout<<"      ";
+   			 for(int i = 0; i < tamanho; i++){
+        		cout<<i+1<<" ";
+    		}
+   			cout<<endl;
+   			cout<<endl;
+
+   			 for(int i = 0; i < tamanho; i++){
+            	cout<<i+1<<"     ";
+            	
+        		for(int j = 0; j < tamanho; j++){
+        			if(i == (linha_esc-1) && j == (coluna_esc-1)){
+						campo[i][j] = campoReal[linha_esc-1][coluna_esc-1];
+           				cout<<campo[i][j]<<" ";
+					}
+					else{
+						cout<<campo[i][j]<<" ";
+					}
+       		 	}
+        		cout<<endl;
+    		}
         comandos(campoReal, campo, tamanho, nivel, minas);
         }
     }
