@@ -1,11 +1,7 @@
-/* # campominado
-projeto de Linguagem de Programação (2018.2) */
-
-
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-#include <ctime>
+#include <time.h>
 #define MAX 40
 
 using namespace std;
@@ -48,7 +44,7 @@ void imprimeCampo(char campo[MAX][MAX], int tamanho){
 
     for(int i = 0; i < tamanho; i++){
         cout<<i+1<<"     ";
-        
+
         for(int j = 0; j < tamanho; j++){
             campo[i][j] = '.';
             cout<<campo[i][j]<<" ";
@@ -60,10 +56,10 @@ void imprimeCampo(char campo[MAX][MAX], int tamanho){
 void preencher(char campo[MAX][MAX], int tamanho, int nivel){
     char campoReal[MAX][MAX];
     int minas, cont;
-    
+
     srand(time(NULL));
     cout<<endl;
-    
+
     if(nivel == 1){
         minas = 10;
     }
@@ -74,7 +70,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 		}
 		else{
 			while(campoReal[a][b] == 'x'){
-				a = rand()%tamanho; 
+				a = rand()%tamanho;
 				b = rand()%tamanho;
 				campoReal[a][b] = 'x';
 			}
@@ -85,7 +81,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 		for(int j = 0; j < tamanho; j++){
 			if(campoReal[i][j] != 'x'){
 				cont = 0;
-				
+
 				if(i == 0 && j == 0){
 					if(campoReal[i][j+1] == 'x')
 						cont++;
@@ -93,7 +89,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i+1][j+1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -104,7 +100,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i+1][j] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -115,7 +111,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i][j+1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -126,7 +122,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i][j-1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -141,7 +137,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i+1][j+1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -156,7 +152,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i][j+1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -171,7 +167,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i+1][j+1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -186,7 +182,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i+1][j-1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -207,7 +203,7 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 						cont++;
 					if(campoReal[i+1][j+1] == 'x')
 						cont++;
-						
+
 					campoReal[i][j] = conversor(cont);
 					cont = 0;
 				}
@@ -215,14 +211,14 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 		}
 		campo[i][tamanho] = '\0';
 	}
-	
+
     comandos(campoReal, campo, tamanho, nivel, minas);
 }
 
 void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int nivel, int minas){
     char comando;
     int linha_esc, coluna_esc;
-    
+
     cout<<"Minas a marcar: "<<minas<<" "<<endl;
     cout<<"D --> Descobrir quadrado "<<endl;
     cout<<"M --> Marcar mina "<<endl;
@@ -235,23 +231,34 @@ void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int ni
 }
 
 void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc){
-    if(comando == 'D'){
-        if(campoReal[linha_esc-1][coluna_esc-1] == 'x'){
+    int cont_minas = 0;
+    int time = 0;
+    if(comando == 'D' || comando =='M'){
+        if(campoReal[linha_esc-1][coluna_esc-1] == 'x' && comando == 'D'){
             cout<<"Voce Perdeu";
         }
         else{
+             if(comando == 'M'){
+                campo[linha_esc-1][coluna_esc-1] = 'M';
+             }
    			 cout<<"      ";
    			 for(int i = 0; i < tamanho; i++){
         		cout<<i+1<<" ";
     		}
+    		time = clock()/1000;
+    		cout<<"     Tempo atual: "<<time<<" segundo(s)";
    			cout<<endl;
    			cout<<endl;
 
    			 for(int i = 0; i < tamanho; i++){
             	cout<<i+1<<"     ";
-            	
+
         		for(int j = 0; j < tamanho; j++){
-        			if(i == (linha_esc-1) && j == (coluna_esc-1)){
+                    if(campo[i][j]=='M'){
+                        cont_minas++;
+                        minas=10-cont_minas;
+                    }
+        			if(i == (linha_esc-1) && j == (coluna_esc-1) && campo[i][j]!='M'){
 						campo[i][j] = campoReal[linha_esc-1][coluna_esc-1];
            				cout<<campo[i][j]<<" ";
 					}
