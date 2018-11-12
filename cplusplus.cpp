@@ -12,6 +12,7 @@ void imprimeCampo(char campo[MAX][MAX], int tamanho);
 void preencher(char campo[MAX][MAX], int tamanho, int nivel);
 void comandos(char campoReal[MAX][MAX], char campo[MAX][MAX],int tamanho, int nivel, int minas);
 void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int minas, int tamanho, int nivel, int linha_esc, int coluna_esc);
+void varredura(char campoReal[MAX][MAX], char campo[MAX][MAX], int tamanho, int linha_esc, int coluna_esc);
 
 char conversor(int n){
 	int aux;
@@ -20,15 +21,15 @@ char conversor(int n){
 }
 
 int telaInicial(int inicio, int nivel){
-    cout<<"• Novo jogo[1] "<<endl;
-    cout<<"• Melhores Tempos[2] "<<endl;
-    cout<<"• Sair[3] "<<endl;
+    cout<<"Novo jogo[1] "<<endl;
+    cout<<"Melhores Tempos[2] "<<endl;
+    cout<<"Sair[3] "<<endl;
     cin>>inicio;
 
-    cout<<"• Jogo Iniciante[1]"<<endl;
-    cout<<"• Jogo Intermediario[2]"<<endl;
-    cout<<"• Jogo Personalizado[3]"<<endl;
-    cout<<"• Voltar[4]"<<endl;
+    cout<<"Jogo Iniciante[1]"<<endl;
+    cout<<"Jogo Intermediario[2]"<<endl;
+    cout<<"Jogo Personalizado[3]"<<endl;
+    cout<<"Voltar[4]"<<endl;
     cin>>nivel;
 
     return ((inicio*10)+nivel);
@@ -258,8 +259,11 @@ void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int
                         cont_minas++;
                         minas=10-cont_minas;
                     }
-        			if(i == (linha_esc-1) && j == (coluna_esc-1) && campo[i][j]!='M'){
+        			if(i == (linha_esc-1) && j == (coluna_esc-1) && campo[i][j] != 'M'){
 						campo[i][j] = campoReal[linha_esc-1][coluna_esc-1];
+						if(campo[i][j] == '0'){
+							varredura(campoReal, campo, tamanho, linha_esc, coluna_esc);
+						}
            				cout<<campo[i][j]<<" ";
 					}
 					else{
@@ -271,6 +275,181 @@ void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int
         comandos(campoReal, campo, tamanho, nivel, minas);
         }
     }
+}
+
+void varredura(char campoReal[MAX][MAX], char campo[MAX][MAX], int tamanho, int linha_esc, int coluna_esc){
+	int i = (linha_esc-1), j = (coluna_esc-1);
+	
+	if(i == 0 && j == 0){
+		campo[i][j+1] = campoReal[i][j+1];
+		if(campoReal[i][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc+1);
+			
+		campo[i+1][j] = campoReal[i+1][j];
+		if(campoReal[i+1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc);
+			
+		campo[i+1][j+1] = campoReal[i+1][j+1];
+		if(campoReal[i+1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc+1);
+	}
+	else if(i == 0 && j == (tamanho-1)){
+		campo[i][j-1] = campoReal[i][j-1];
+		if(campoReal[i][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc-1);	
+
+		campo[i+1][j-1] = campoReal[i+1][j-1];
+		if(campoReal[i+1][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc-1);
+			
+		campo[i+1][j] = campoReal[i+1][j];
+		if(campoReal[i+1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc);
+	}
+	else if(i == (tamanho-1) && j == 0){
+		campo[i-1][j] = campoReal[i-1][j];
+		if(campoReal[i-1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc);
+			
+		campo[i-1][j+1] = campoReal[i-1][j+1];
+		if(campoReal[i-1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc+1);
+			
+		campo[i][j+1] = campoReal[i][j+1];
+		if(campoReal[i][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc+1);				
+	}
+	else if(i == (tamanho-1) && j == (tamanho-1)){
+		campo[i-1][j] = campoReal[i-1][j];
+		if(campoReal[i-1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc);
+			
+		campo[i-1][j-1] = campoReal[i-1][j-1];
+		if(campoReal[i-1][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc-1);
+			
+		campo[i][j-1] = campoReal[i][j-1];
+		if(campoReal[i][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc-1);
+	}
+	else if(i == 0 && j > 0 && j < (tamanho-1)){
+		campo[i][j-1] = campoReal[i][j-1];
+		if(campoReal[i][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc-1);
+			
+		campo[i][j+1] = campoReal[i][j+1];
+		if(campoReal[i][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc+1);	
+					
+		campo[i-1][j+1] = campoReal[i-1][j+1];
+		if(campoReal[i-1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc+1);
+
+		campo[i+1][j] = campoReal[i+1][j];
+		if(campoReal[i+1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc);		
+
+		campo[i+1][j+1] = campoReal[i+1][j+1];
+		if(campoReal[i+1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc+1);
+	}
+	else if(i == (tamanho-1) && j > 0 && j < (tamanho-1)){
+		campo[i][j-1] = campoReal[i][j-1];
+		if(campoReal[i][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc-1);
+		
+		campo[i-1][j-1] = campoReal[i-1][j-1];
+		if(campoReal[i-1][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc-1);
+			
+		campo[i-1][j] = campoReal[i-1][j];
+		if(campoReal[i-1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc);
+
+		campo[i-1][j+1] = campoReal[i-1][j+1];
+		if(campoReal[i-1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc+1);
+
+		campo[i][j+1] = campoReal[i][j+1];
+		if(campoReal[i][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc+1);
+	}
+	else if(j == 0 && i > 0 && i < (tamanho-1)){
+		campo[i-1][j] = campoReal[i-1][j];
+		if(campoReal[i-1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc);
+
+		campo[i-1][j+1] = campoReal[i-1][j+1];
+		if(campoReal[i-1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc+1);
+
+		campo[i][j+1] = campoReal[i][j+1];
+		if(campoReal[i][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc+1);
+
+		campo[i+1][j] = campoReal[i+1][j];
+		if(campoReal[i+1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc);
+
+		campo[i+1][j+1] = campoReal[i+1][j+1];
+		if(campoReal[i+1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc+1);
+	}
+	else if(j == (tamanho-1) && i > 0 && i < (tamanho-1)){
+		campo[i-1][j] = campoReal[i-1][j];
+		if(campoReal[i-1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc);
+
+		campo[i-1][j-1] = campoReal[i-1][j-1];
+		if(campoReal[i-1][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc-1);
+
+		campo[i][j-1] = campoReal[i][j-1];
+		if(campoReal[i][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc-1);
+
+		campo[i+1][j] = campoReal[i+1][j];
+		if(campoReal[i+1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc);
+
+		campo[i+1][j-1] = campoReal[i+1][j-1];
+		if(campoReal[i+1][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc-1);
+	}
+	else{
+		campo[i-1][j-1] = campoReal[i-1][j-1];
+		if(campoReal[i-1][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc-1);
+
+		campo[i-1][j] = campoReal[i-1][j];
+		if(campoReal[i-1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc);
+
+		campo[i-1][j+1] = campoReal[i-1][j+1];
+		if(campoReal[i-1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc-1, coluna_esc+1);
+
+		campo[i][j-1] = campoReal[i][j-1];
+		if(campoReal[i][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc-1);
+
+		campo[i][j+1] = campoReal[i][j+1];
+		if(campoReal[i][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc, coluna_esc+1);
+
+		campo[i+1][j-1] = campoReal[i+1][j-1];
+		if(campoReal[i+1][j-1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc-1);
+
+		campo[i+1][j] = campoReal[i+1][j];
+		if(campoReal[i+1][j] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc);
+
+
+		campo[i+1][j+1] = campoReal[i+1][j+1];
+		if(campoReal[i+1][j+1] == '0')
+			varredura(campoReal, campo, tamanho, linha_esc+1, coluna_esc+1);
+	}
 }
 
 int main(void){
