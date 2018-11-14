@@ -73,8 +73,8 @@ void preencher(char campo[MAX][MAX], int tamanho, int nivel){
 			while(campoReal[a][b] == 'x'){
 				a = rand()%tamanho;
 				b = rand()%tamanho;
-				campoReal[a][b] = 'x';
 			}
+			campoReal[a][b] = 'x';
 		}
 	}
 
