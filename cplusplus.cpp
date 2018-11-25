@@ -47,7 +47,7 @@ int telaInicial(int inicio, int nivel){
 
 void imprimeCampo(char campo[MAX][MAX], int linha, int coluna, int tempo){
     cout<<"      ";
-    for(int i = 0; i < linha; i++){
+    for(int i = 0; i < coluna; i++){
         cout<<i+1<<" ";
     }
     cout<<endl;
@@ -265,7 +265,7 @@ void resultado(char campoReal[MAX][MAX], char campo[MAX][MAX], int comando,  int
             }
             
 			cout<<"      ";
-            for(int i = 0; i < linha; i++){
+            for(int i = 0; i < coluna; i++){
                 cout<<i+1<<" ";
             }
 
